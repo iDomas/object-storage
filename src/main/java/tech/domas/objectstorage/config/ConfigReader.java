@@ -17,7 +17,9 @@ public class ConfigReader {
         Configurations configs = new Configurations();
         try {
             Configuration config = configs.properties(new File("system.properties"));
-            ConfigCache.INSTANCE.configCache.put(Config.TEST_CONFIG, config.getString(Config.TEST_CONFIG));
+            ConfigCache.INSTANCE.configCache.put(Config.NANO_HTTPD_SERVER_PORT, config.getString(Config.NANO_HTTPD_SERVER_PORT));
+            ConfigCache.INSTANCE.configCache.put(Config.NANO_HTTPD_SERVER_DAEMON, config.getString(Config.NANO_HTTPD_SERVER_DAEMON));
+            ConfigCache.INSTANCE.configCache.put(Config.NANO_HTTPD_SERVER_SOCKET_READ_TIMEOUT, config.getString(Config.NANO_HTTPD_SERVER_SOCKET_READ_TIMEOUT));
         } catch (ConfigurationException e) {
             LOGGER.error("Not successful read of config. ", e);
         }

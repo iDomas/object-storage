@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import tech.domas.objectstorage.config.Config;
 import tech.domas.objectstorage.config.ConfigReader;
 import tech.domas.objectstorage.config.cache.ConfigCache;
+import tech.domas.objectstorage.httpserver.NanoServer;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 public class ObjectStorage {
@@ -14,10 +16,14 @@ public class ObjectStorage {
     public ObjectStorage() {
         // read configurations
         new ConfigReader();
+
+        // start http server
         try {
-            LOGGER.info("Test setting is: " + ConfigCache.INSTANCE.configCache.get(Config.TEST_CONFIG));
+            new NanoServer();
+        } catch (IOException e) {
+            LOGGER.error("Problems starting server. ", e);
         } catch (ExecutionException e) {
-            LOGGER.error("Failed to read config: " + Config.TEST_CONFIG, e);
+            LOGGER.error("Problems reading configurations from cache.", e);
         }
     }
 

@@ -11,7 +11,7 @@ public class ObjectStorageApp
 
     public static void main( String[] args )
     {
-       LOGGER.info("Hello, World!");
+       LOGGER.info("Starting application...");
        new ObjectStorage();
     }
 }

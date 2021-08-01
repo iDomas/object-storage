@@ -24,6 +24,7 @@
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-io.version>2.11.0</commons-io.version>
     <lombok.version>1.18.20</lombok.version>
+    <nanohttpd.version>2.2.0</nanohttpd.version>
     <junit.version>4.13.2</junit.version>
     <mockito-core.version>3.11.2</mockito-core.version>
   </properties>
@@ -97,7 +98,13 @@
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
       <scope>provided</scope>
-    </dependency>  
+    </dependency>
+
+    <dependency>
+      <groupId>org.nanohttpd</groupId> <!-- <groupId>com.nanohttpd</groupId> for 2.1.0 and earlier -->
+      <artifactId>nanohttpd</artifactId>
+      <version>${nanohttpd.version}</version>
+    </dependency>
 
     <!-- https://mvnrepository.com/artifact/junit/junit -->
     <dependency>

@@ -21,6 +21,7 @@ public class ConfigReader {
             ConfigCache.configCache.put(Config.NANO_HTTPD_SERVER_PORT, config.getString(Config.NANO_HTTPD_SERVER_PORT));
             ConfigCache.configCache.put(Config.NANO_HTTPD_SERVER_DAEMON, config.getString(Config.NANO_HTTPD_SERVER_DAEMON));
             ConfigCache.configCache.put(Config.NANO_HTTPD_SERVER_SOCKET_READ_TIMEOUT, config.getString(Config.NANO_HTTPD_SERVER_SOCKET_READ_TIMEOUT));
+            ConfigCache.configCache.put(Config.STORAGE_PATH, config.getString(Config.STORAGE_PATH));
         } catch (ConfigurationException e) {
             LOGGER.error("Not successful read of config. ", e);
         }

@@ -14,11 +14,11 @@ public class NanoServer extends NanoHTTPD {
     private static final Logger LOGGER = LoggerFactory.getLogger(NanoServer.class.getName());
 
     public NanoServer() throws IOException, ExecutionException {
-        super(Integer.parseInt(ConfigCache.INSTANCE.configCache.get(Config.NANO_HTTPD_SERVER_PORT)));
-        final boolean isDaemon = Boolean.parseBoolean(ConfigCache.INSTANCE.configCache.get(Config.NANO_HTTPD_SERVER_DAEMON));
-        final int socketReadTimeout = Integer.parseInt(ConfigCache.INSTANCE.configCache.get(Config.NANO_HTTPD_SERVER_SOCKET_READ_TIMEOUT));
+        super(Integer.parseInt(ConfigCache.configCache.get(Config.NANO_HTTPD_SERVER_PORT)));
+        final boolean isDaemon = Boolean.parseBoolean(ConfigCache.configCache.get(Config.NANO_HTTPD_SERVER_DAEMON));
+        final int socketReadTimeout = Integer.parseInt(ConfigCache.configCache.get(Config.NANO_HTTPD_SERVER_SOCKET_READ_TIMEOUT));
         start(socketReadTimeout, isDaemon);
-        LOGGER.info("Nano HTTPD is running on port: " + Integer.parseInt(ConfigCache.INSTANCE.configCache.get(Config.NANO_HTTPD_SERVER_PORT)));
+        LOGGER.info("Nano HTTPD is running on port: " + Integer.parseInt(ConfigCache.configCache.get(Config.NANO_HTTPD_SERVER_PORT)));
     }
 
     @Override

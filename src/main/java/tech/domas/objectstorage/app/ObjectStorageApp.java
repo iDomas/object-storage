@@ -12,6 +12,11 @@ public class ObjectStorageApp
     public static void main( String[] args )
     {
        LOGGER.info("Starting application...");
-       new ObjectStorage();
+
+       if (args.length > 0) {
+            new ObjectStorage(args[0]);
+       } else {
+           new ObjectStorage();
+       }
     }
 }

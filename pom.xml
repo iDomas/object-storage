@@ -27,6 +27,8 @@
     <nanohttpd.version>2.2.0</nanohttpd.version>
     <junit.version>4.13.2</junit.version>
     <mockito-core.version>3.11.2</mockito-core.version>
+    <apache.dbutils.version>1.7</apache.dbutils.version>
+    <sqlite.driver.version>3.36.0.1</sqlite.driver.version>
   </properties>
 
   <dependencies>
@@ -106,6 +108,13 @@
       <version>${nanohttpd.version}</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/commons-dbutils/commons-dbutils -->
+    <dependency>
+      <groupId>commons-dbutils</groupId>
+      <artifactId>commons-dbutils</artifactId>
+      <version>${apache.dbutils.version}</version>
+    </dependency>
+
     <!-- https://mvnrepository.com/artifact/junit/junit -->
     <dependency>
       <groupId>junit</groupId>
@@ -121,6 +130,11 @@
       <artifactId>mockito-core</artifactId>
       <version>${mockito-core.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+      <version>2.2.3</version>
     </dependency>
 
   </dependencies>

@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.domas.objectstorage.config.cache.ConfigCache;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class ConfigReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigReader.class.getName());
@@ -22,6 +20,9 @@ public class ConfigReader {
             ConfigCache.configCache.put(Config.NANO_HTTPD_SERVER_DAEMON, config.getString(Config.NANO_HTTPD_SERVER_DAEMON));
             ConfigCache.configCache.put(Config.NANO_HTTPD_SERVER_SOCKET_READ_TIMEOUT, config.getString(Config.NANO_HTTPD_SERVER_SOCKET_READ_TIMEOUT));
             ConfigCache.configCache.put(Config.STORAGE_PATH, config.getString(Config.STORAGE_PATH));
+            ConfigCache.configCache.put(Config.SQLITE_FILE_NAME, config.getString(Config.SQLITE_FILE_NAME));
+            ConfigCache.configCache.put(Config.SQLITE_USER, config.getString(Config.SQLITE_USER));
+            ConfigCache.configCache.put(Config.SQLITE_PASS, config.getString(Config.SQLITE_PASS));
         } catch (ConfigurationException e) {
             LOGGER.error("Not successful read of config. ", e);
         }

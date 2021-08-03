@@ -24,7 +24,7 @@
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-io.version>2.11.0</commons-io.version>
     <lombok.version>1.18.20</lombok.version>
-    <nanohttpd.version>2.2.0</nanohttpd.version>
+    <nanohttpd.version>2.3.1</nanohttpd.version>
     <junit.version>4.13.2</junit.version>
     <mockito-core.version>3.11.2</mockito-core.version>
     <sqlite.driver.version>3.36.0.1</sqlite.driver.version>

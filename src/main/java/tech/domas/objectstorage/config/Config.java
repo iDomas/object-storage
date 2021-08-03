@@ -8,4 +8,5 @@ public class Config {
     public static final String SQLITE_FILE_NAME = "sqlite.file.name";
     public static final String SQLITE_USER = "sqlite.user";
     public static final String SQLITE_PASS = "sqlite.pass";
+    public static final String MIME_TYPE_SUPPORT = "mimetype.support";
 }

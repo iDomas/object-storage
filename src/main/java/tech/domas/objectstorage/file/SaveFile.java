@@ -1,45 +1,78 @@
 package tech.domas.objectstorage.file;
 
-import org.apache.commons.io.FileUtils;
+import fi.iki.elonen.NanoFileUpload;
+import fi.iki.elonen.NanoHTTPD;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.tika.Tika;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.domas.objectstorage.config.Config;
 import tech.domas.objectstorage.config.cache.ConfigCache;
+import tech.domas.objectstorage.db.SQLiteHandlerFactory;
+import tech.domas.objectstorage.httpserver.utils.exception.MimeTypeNotSupportedException;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 public class SaveFile {
     private static final Logger LOGGER = LoggerFactory.getLogger(SaveFile.class.getName());
 
-    public static boolean createAndSaveFile(InputStream content, String fileExtension) {
-        try {
-            if (content.available() == 0) {
-                return false;
-            }
-            final String path = ConfigCache.configCache.get(Config.STORAGE_PATH);
-            // TODO: somewhere here add insertion into sqlite
-            final String fileName = generateFileName(path, fileExtension);
-            File target = new File(fileName);
-            FileUtils.copyInputStreamToFile(content, target);
-        } catch (IOException e) {
-            LOGGER.info("Failed to read input stream. ", e);
-        } catch (ExecutionException e) {
-            LOGGER.error("Failed to get config from cache.", e);
-        }
+    private static final String OK = "OK";
+    private static final String FAILED_TO_GET_CONFIG = "Failed to get config from cache.";
+    private static final String FAILED_TO_PARSE = "Failed to parse file upload request";
+    private static final String FAILED_TO_WRITE_FILE = "Failed to write file...";
+    private static final String MIME_TYPE_NOT_PROVIDED_IN_SUPPORTED_MIME_TYPES = "Mime type not provided in supported mime types";
 
-        return true;
+    public static SaveFileResult saveFile(NanoHTTPD.IHTTPSession session, String fileExtension) {
+        String fileName = "";
+        try {
+            List<FileItem> files = new NanoFileUpload(new DiskFileItemFactory()).parseRequest(session);
+            writeFile(files.get(0).get(), fileExtension);
+            return new SaveFileResult(true, fileName, OK, NanoHTTPD.Response.Status.OK);
+        } catch (ExecutionException e) {
+            LOGGER.error(FAILED_TO_GET_CONFIG, e);
+            return new SaveFileResult(false, fileName, FAILED_TO_GET_CONFIG, NanoHTTPD.Response.Status.INTERNAL_ERROR);
+        } catch (FileUploadException e) {
+            LOGGER.error(FAILED_TO_PARSE, e);
+            return new SaveFileResult(false, fileName, FAILED_TO_PARSE, NanoHTTPD.Response.Status.INTERNAL_ERROR);
+        } catch (IOException e) {
+            LOGGER.error(FAILED_TO_WRITE_FILE, e);
+            return new SaveFileResult(false, fileName, FAILED_TO_WRITE_FILE, NanoHTTPD.Response.Status.INTERNAL_ERROR);
+        } catch (MimeTypeNotSupportedException e) {
+            LOGGER.error(MIME_TYPE_NOT_PROVIDED_IN_SUPPORTED_MIME_TYPES, e);
+            return new SaveFileResult(false, fileName, MIME_TYPE_NOT_PROVIDED_IN_SUPPORTED_MIME_TYPES,
+                    NanoHTTPD.Response.Status.INTERNAL_ERROR);
+        }
     }
 
-    private static String generateFileName(String path, String fileExtension) {
+    private static void writeFile(byte[] fileContent, String fileExtension) throws ExecutionException, IOException, MimeTypeNotSupportedException {
+        final String mimeType = (new Tika()).detect(fileContent);
+
+        String[] supportedMimeTypes = ConfigCache.configCache.get(Config.MIME_TYPE_SUPPORT).split(",");
+        if (!Arrays.asList(supportedMimeTypes).contains(mimeType)) {
+            throw new MimeTypeNotSupportedException();
+        }
+
+        final String path = ConfigCache.configCache.get(Config.STORAGE_PATH);
+        final String fullFileName = UUID.randomUUID() + "." + fileExtension;
+        final String fileName = filePath(path, fullFileName);
+        SQLiteHandlerFactory.getSqLiteHandler().insertIntoFileItem(fullFileName, DateTime.now(), fileExtension);
+        Files.write(Paths.get(fileName), fileContent);
+    }
+
+    private static String filePath(String path, String fullFileName) {
         if (path.endsWith("/")) {
-            return  path + UUID.randomUUID()+ "." + fileExtension;
+            return  path + fullFileName;
         } else {
-            return path + "/" + UUID.randomUUID()+ "." + fileExtension;
+            return path + "/" + fullFileName;
         }
     }
 }

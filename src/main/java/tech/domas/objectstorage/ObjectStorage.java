@@ -3,7 +3,6 @@ package tech.domas.objectstorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.domas.objectstorage.config.ConfigReader;
-import tech.domas.objectstorage.db.SQLiteHandler;
 import tech.domas.objectstorage.httpserver.NanoServer;
 
 import java.io.IOException;
@@ -21,8 +20,6 @@ public class ObjectStorage {
     public ObjectStorage(String pathToConfigFile) {
         // read configurations
         new ConfigReader(pathToConfigFile);
-
-        new SQLiteHandler();
 
         // start http server
         try {

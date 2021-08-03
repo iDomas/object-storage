@@ -23,6 +23,7 @@ public class ConfigReader {
             ConfigCache.configCache.put(Config.SQLITE_FILE_NAME, config.getString(Config.SQLITE_FILE_NAME));
             ConfigCache.configCache.put(Config.SQLITE_USER, config.getString(Config.SQLITE_USER));
             ConfigCache.configCache.put(Config.SQLITE_PASS, config.getString(Config.SQLITE_PASS));
+            ConfigCache.configCache.put(Config.MIME_TYPE_SUPPORT, config.getString(Config.MIME_TYPE_SUPPORT));
         } catch (ConfigurationException e) {
             LOGGER.error("Not successful read of config. ", e);
         }

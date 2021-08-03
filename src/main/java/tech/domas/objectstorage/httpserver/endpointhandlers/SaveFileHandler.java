@@ -6,13 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.domas.objectstorage.file.SaveFile;
 import tech.domas.objectstorage.file.SaveFileResult;
+import tech.domas.objectstorage.httpserver.utils.AbstractParameterWrapper;
 import tech.domas.objectstorage.httpserver.utils.ErrorResponse;
 import tech.domas.objectstorage.httpserver.utils.SaveFileRequest;
-import tech.domas.objectstorage.httpserver.utils.SaveFileResponse;
+import tech.domas.objectstorage.httpserver.utils.FileResponse;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 public class SaveFileHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(SaveFileHandler.class.getName());
@@ -29,21 +28,14 @@ public class SaveFileHandler {
 
     public static NanoHTTPD.Response handleSaveFile(NanoHTTPD.IHTTPSession session) {
         LOGGER.debug("Starting save file... ");
-        Map<String, List<String>> parameters = session.getParameters();
-
-        if (!parameters.containsKey(FILE_EXTENSION)) {
-            return ErrorHandler.handlerError(session, ErrorResponse.toJSON(NO_REQUIRED_KEY));
+        AbstractParameterWrapper parameterWrapper = AbstractParameterHandler.
+                getParameter(session, FILE_EXTENSION, NO_REQUIRED_KEY, NO_VALUE, TOO_MUCH_EXTENSIONS);
+        if (!parameterWrapper.isOk()) {
+            return ErrorHandler.handlerError(session, ErrorResponse.toJSON(parameterWrapper.getErrorMessage()));
         }
+        final String fileExtension = parameterWrapper.getParameterValue();
 
-        if (StringUtils.isBlank(parameters.get(FILE_EXTENSION).get(0))) {
-            return ErrorHandler.handlerError(session, ErrorResponse.toJSON(NO_VALUE));
-        }
-
-        if (parameters.get(FILE_EXTENSION).size() > 1) {
-            return ErrorHandler.handlerError(session, ErrorResponse.toJSON(TOO_MUCH_EXTENSIONS));
-        }
-
-        SaveFileRequest request = new SaveFileRequest(parameters.get(FILE_EXTENSION).get(0));
+        SaveFileRequest request = new SaveFileRequest(fileExtension);
         if (StringUtils.isBlank(request.getFileExtension())) {
             return ErrorHandler.handlerError(session, ErrorResponse.toJSON(NO_VALUE));
         }
@@ -62,7 +54,7 @@ public class SaveFileHandler {
         }
 
         final SaveFileResult result = SaveFile.saveFile(session, request.getFileExtension());
-        return NanoHTTPD.newFixedLengthResponse(result.getStatus(), NanoHTTPD.MIME_PLAINTEXT, SaveFileResponse.toJSON(result.getFileName(), result.getMessage()));
+        return NanoHTTPD.newFixedLengthResponse(result.getStatus(), NanoHTTPD.MIME_PLAINTEXT, FileResponse.toJSON(result.getFileName(), result.getMessage()));
     }
 
 }

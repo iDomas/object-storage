@@ -3,6 +3,7 @@ package tech.domas.objectstorage.db;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.domas.objectstorage.config.Config;
@@ -30,7 +31,7 @@ public class SQLHandlerTest {
         final DateTime dateTime = DateTime.now();
         final String fileExtension = "txt";
 
-        assertTrue(sqLiteHandler.insertIntoFileItem(fileName, dateTime, fileExtension));
+        assertTrue(sqLiteHandler.insertIntoFileItem(fileName, dateTime, fileExtension, Mockito.anyString()));
 
         sqLiteHandler.closeDbConnection();
 

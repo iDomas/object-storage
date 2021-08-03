@@ -62,9 +62,9 @@ public class SaveFile {
         }
 
         final String path = ConfigCache.configCache.get(Config.STORAGE_PATH);
-        final String fullFileName = UUID.randomUUID() + "." + fileExtension;
+        String fullFileName = UUID.randomUUID() + "." + fileExtension;
+        SQLiteHandlerFactory.getSqLiteHandler().insertIntoFileItem(fullFileName, DateTime.now(), fileExtension, mimeType);
         final String fileName = filePath(path, fullFileName);
-        SQLiteHandlerFactory.getSqLiteHandler().insertIntoFileItem(fullFileName, DateTime.now(), fileExtension);
         Files.write(Paths.get(fileName), fileContent);
         return fullFileName;
     }

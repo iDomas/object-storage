@@ -15,6 +15,7 @@ public class InitTables {
         try {
             Statement stmt = conn.createStatement();
             stmt.execute(SQLScript.createFileItemString());
+            stmt.execute(SQLScript.createTagForFileName());
             stmt.close();
         } catch (SQLException e) {
             LOGGER.error("Failed to execute SQL script.", e);

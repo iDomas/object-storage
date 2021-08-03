@@ -35,7 +35,7 @@ public class SaveFile {
         String fileName = "";
         try {
             List<FileItem> files = new NanoFileUpload(new DiskFileItemFactory()).parseRequest(session);
-            writeFile(files.get(0).get(), fileExtension);
+            fileName = writeFile(files.get(0).get(), fileExtension);
             return new SaveFileResult(true, fileName, OK, NanoHTTPD.Response.Status.OK);
         } catch (ExecutionException e) {
             LOGGER.error(FAILED_TO_GET_CONFIG, e);
@@ -53,7 +53,7 @@ public class SaveFile {
         }
     }
 
-    private static void writeFile(byte[] fileContent, String fileExtension) throws ExecutionException, IOException, MimeTypeNotSupportedException {
+    private static String writeFile(byte[] fileContent, String fileExtension) throws ExecutionException, IOException, MimeTypeNotSupportedException {
         final String mimeType = (new Tika()).detect(fileContent);
 
         String[] supportedMimeTypes = ConfigCache.configCache.get(Config.MIME_TYPE_SUPPORT).split(",");
@@ -66,6 +66,7 @@ public class SaveFile {
         final String fileName = filePath(path, fullFileName);
         SQLiteHandlerFactory.getSqLiteHandler().insertIntoFileItem(fullFileName, DateTime.now(), fileExtension);
         Files.write(Paths.get(fileName), fileContent);
+        return fullFileName;
     }
 
     private static String filePath(String path, String fullFileName) {

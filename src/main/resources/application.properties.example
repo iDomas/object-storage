@@ -1,0 +1,11 @@
+nanohttpd.server.port=8080
+nanohttpd.server.daemon=false
+nanohttpd.server.socketreadtimeout=60000
+
+storage.path=/tmp
+
+sqlite.file.name=object-storage
+sqlite.user=sa
+sqlite.pass=
+
+mimetype.support=image/gif,image/jpeg,image/png

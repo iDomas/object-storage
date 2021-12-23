@@ -22,14 +22,14 @@ class AbstractParameterHandler {
 
         if (StringUtils.isBlank(parameters.get(targetParameter).get(0))) {
             return AbstractParameterWrapper.builder()
-                    .errorMessage(missingParameterMessage)
+                    .errorMessage(parameterNoValue)
                     .ok(false)
                     .build();
         }
 
         if (parameters.get(targetParameter).size() > 1) {
             return AbstractParameterWrapper.builder()
-                    .errorMessage(missingParameterMessage)
+                    .errorMessage(toMuchValues)
                     .ok(false)
                     .build();
         }

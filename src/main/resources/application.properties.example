@@ -9,3 +9,10 @@ sqlite.user=sa
 sqlite.pass=
 
 mimetype.support=image/gif,image/jpeg,image/png
+
+keycloak.auth.username=username
+keycloak.auth.password=password
+keycloak.auth.endpoint=ttp://localhost:8080/auth/realms/<realm-name>/protocol/openid-connect/token
+keycloak.auth.client-id=realm-name
+keycloak.auth.grant-type=password
+keycloak.auth.client_secret=secret

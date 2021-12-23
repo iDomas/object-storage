@@ -9,4 +9,10 @@ public class Config {
     public static final String SQLITE_USER = "sqlite.user";
     public static final String SQLITE_PASS = "sqlite.pass";
     public static final String MIME_TYPE_SUPPORT = "mimetype.support";
+    public static final String KEYCLOAK_AUTH_USERNAME = "keycloak.auth.username";
+    public static final String KEYCLOAK_AUTH_PASSWORD = "keycloak.auth.password";
+    public static final String KEYCLOAK_AUTH_ENDPOINT = "keycloak.auth.endpoint";
+    public static final String KEYCLOAK_AUTH_CLIENT_ID = "keycloak.auth.client-id";
+    public static final String KEYCLOAK_AUTH_GRANT_TYPE = "keycloak.auth.grant-type";
+    public static final String KEYCLOAK_AUTH_CLIENT_SECRET = "keycloak.auth.client_secret";
 }

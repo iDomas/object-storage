@@ -63,4 +63,16 @@ public class SQLiteHandler {
 
         return UNKNOWN_MIME_TYPE;
     }
+
+    public boolean deleteFile(String fileName) {
+        try {
+            Statement stmt = ds.getCon().createStatement();
+            stmt.execute(SQLScript.deleteFile(fileName));
+            stmt.close();
+            return true;
+        } catch (SQLException ex) {
+            LOGGER.error("Failed to execute SQL script.", ex);
+            return false;
+        }
+    }
 }

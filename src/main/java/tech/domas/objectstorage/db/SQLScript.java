@@ -17,12 +17,16 @@ public class SQLScript {
     }
 
     static String insertIntoFileItem(String fileName, long timestamp, String fileExtension, String mimeType) {
-        return "INSERT INTO file_item (file_name, timestamp, file_extension, mime_tpye) " +
+        return "INSERT INTO file_item (file_name, timestamp, file_extension, mime_type) " +
                 "VALUES ('" + fileName + "' , " + timestamp + ", '" + fileExtension + "', '" + mimeType + "');";
     }
 
     static String getFileMimeType(String fileName) {
         return "SELECT mime_type FROM file_item WHERE file_name = '" + fileName + "';";
+    }
+
+    static String deleteFile(String fileName) {
+        return "DELETE FROM file_item WHERE file_name = '" + fileName + "';";
     }
 
 }

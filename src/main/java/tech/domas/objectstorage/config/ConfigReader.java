@@ -24,6 +24,12 @@ public class ConfigReader {
             ConfigCache.configCache.put(Config.SQLITE_USER, config.getString(Config.SQLITE_USER));
             ConfigCache.configCache.put(Config.SQLITE_PASS, config.getString(Config.SQLITE_PASS));
             ConfigCache.configCache.put(Config.MIME_TYPE_SUPPORT, config.getString(Config.MIME_TYPE_SUPPORT));
+            ConfigCache.configCache.put(Config.KEYCLOAK_AUTH_USERNAME, config.getString(Config.KEYCLOAK_AUTH_USERNAME));
+            ConfigCache.configCache.put(Config.KEYCLOAK_AUTH_PASSWORD, config.getString(Config.KEYCLOAK_AUTH_PASSWORD));
+            ConfigCache.configCache.put(Config.KEYCLOAK_AUTH_ENDPOINT, config.getString(Config.KEYCLOAK_AUTH_ENDPOINT));
+            ConfigCache.configCache.put(Config.KEYCLOAK_AUTH_CLIENT_ID, config.getString(Config.KEYCLOAK_AUTH_CLIENT_ID));
+            ConfigCache.configCache.put(Config.KEYCLOAK_AUTH_CLIENT_SECRET, config.getString(Config.KEYCLOAK_AUTH_CLIENT_SECRET));
+            ConfigCache.configCache.put(Config.KEYCLOAK_AUTH_GRANT_TYPE, config.getString(Config.KEYCLOAK_AUTH_GRANT_TYPE));
         } catch (ConfigurationException e) {
             LOGGER.error("Not successful read of config. ", e);
         }

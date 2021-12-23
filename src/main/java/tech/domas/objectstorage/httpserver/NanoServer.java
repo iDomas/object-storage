@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.domas.objectstorage.config.Config;
 import tech.domas.objectstorage.config.cache.ConfigCache;
+import tech.domas.objectstorage.httpserver.endpointhandlers.DeleteFileHandler;
 import tech.domas.objectstorage.httpserver.endpointhandlers.ErrorHandler;
 import tech.domas.objectstorage.httpserver.endpointhandlers.GetFileHandler;
 import tech.domas.objectstorage.httpserver.endpointhandlers.HomeHandler;
@@ -43,6 +44,9 @@ public class NanoServer extends NanoHTTPD {
             case Endpoint.GET_FILE:
                 if (Method.GET.equals(session.getMethod())) {
                     return GetFileHandler.handleGetFile(session);
+                }
+                if (Method.DELETE.equals(session.getMethod())) {
+                    return DeleteFileHandler.handleDeleteFile(session);
                 }
                 return ErrorHandler.handlerError(session, ErrorResponse.toJSON(BASIC_404));
             default:

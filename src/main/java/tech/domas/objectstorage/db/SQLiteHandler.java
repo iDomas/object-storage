@@ -3,21 +3,25 @@ package tech.domas.objectstorage.db;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Component
 public class SQLiteHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(SQLiteHandler.class.getName());
 
     private static final String UNKNOWN_MIME_TYPE = "unknown";
 
-    private final Datasource ds;
+    @Autowired
+    private Datasource ds;
 
-    public SQLiteHandler() {
-        ds = new Datasource();
-
+    @PostConstruct()
+    public void SQLiteHandler() {
         new InitTables(ds.getCon());
     }
 
@@ -49,10 +53,8 @@ public class SQLiteHandler {
             ResultSet result = stmt.getResultSet();
             String mimeType = UNKNOWN_MIME_TYPE;
             while (result.next()) {
-                if (result.isLast()) {
-                    final int mimeTypeColumn = 4;
-                    mimeType = result.getString(mimeTypeColumn);
-                }
+                final int mimeTypeColumn = 1;
+                mimeType = result.getString(mimeTypeColumn);
             }
             result.close();
             stmt.close();

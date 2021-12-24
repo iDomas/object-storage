@@ -1,4 +1,4 @@
-package tech.domas.objectstorage.httpserver.utils.exception;
+package tech.domas.objectstorage.exception;
 
 public class MimeTypeNotSupportedException extends RuntimeException {
 

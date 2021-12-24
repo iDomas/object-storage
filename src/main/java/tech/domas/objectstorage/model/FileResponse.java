@@ -1,4 +1,4 @@
-package tech.domas.objectstorage.httpserver.utils;
+package tech.domas.objectstorage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -15,7 +15,7 @@ public class FileResponse {
     private String fileName;
     private String message;
 
-    public static String toJSON(String fileName, String message) {
+    public String toJSON() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
